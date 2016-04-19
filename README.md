@@ -55,3 +55,5 @@ Order-10:
 I claim that the higher number of characters are used in a text, the longer the time to generate the characters will be, however the accuracy also goes up with the number of characters in a text, because theoretically it has been trained on more samples. In comparison from romeo to scarlet, I think the amount of time will approximately double from the ~4x change in number of characters. The evidence shows it was a bit higher, around 920 ms, but still kind of close. For KJV, I think it could take a lot of time, but more of a lgn than a n^2 amount- maybe around 250x more? I would think it would be on a logarithmic curve from the origial romeo. 
 
 3. Provide timings using your Map/Smart model for both creating the map and generating 200, 400, 800, and 1600 character random texts with an order-5 Model and romeo.txt. Provide some explanation for the timings you observe.
+
+See Above.
