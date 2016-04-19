@@ -5,11 +5,18 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+/*
+ * 	ASSIGNMENT: Markov Modeling
+ * 	AUTHOR:		Luke Tannenbaum
+ * 	DUE:		4/18/16
+ * 	CLASS:		Comp 550
+ * 
+ */
 public class MapMarkovModel extends AbstractModel{
 
 	private String input;
 	private Random seed;
-	private int numToPrint = 100;
+	private int numToPrint = 1600;
 
 	private HashMap<String, ArrayList<Character>> markMap;
 
@@ -22,7 +29,7 @@ public class MapMarkovModel extends AbstractModel{
 		double startTime = System.currentTimeMillis();
 		int count = read(scan);
 		double endTime = System.currentTimeMillis();
-		double ellapsed = (endTime-startTime)/1000.0;
+		double ellapsed = (endTime-startTime);
 		super.messageViews("#read: "+count+" chars in: "+ellapsed+" secs");
 	}
 
@@ -30,12 +37,44 @@ public class MapMarkovModel extends AbstractModel{
 		String toString = (String) ob;
 		String[] ints = toString.split("\\s+");
 		int i = Integer.parseInt(ints[0]);
-		int letters = 500;
+		int letters = numToPrint;
 		if(ints.length > 1){
 			letters = Integer.parseInt(ints[1]);
 		}
-		goodMarkov(i,letters);
+		//goodMarkov(i,letters);
+		double startTime = System.currentTimeMillis();
+		brute(i, letters);
+		double finishTime = System.currentTimeMillis();
+		double ellapsed = (finishTime-startTime);
+		this.messageViews("Time to gen:"+ellapsed);
 	}
+	
+	public void brute(int k, int numLetters) {
+
+        // pick random k-character substring as initial seed
+        int start = seed.nextInt(input.length() - k + 1);
+        String mySeed = input.substring(start, start + k);
+
+        // copy first k characters to back to simulate wrap-around
+        String wrapAroundString = input + input.substring(0,k);
+
+        StringBuilder build = new StringBuilder();
+        ArrayList<Character> list = new ArrayList<Character>();
+
+        for (int i = 0; i < numLetters; i++) {
+            list.clear();
+            int pos = 0;
+            while ((pos = wrapAroundString.indexOf(mySeed, pos)) != -1 && pos < input.length()) {
+                char ch = wrapAroundString.charAt(pos + k);
+                list.add(ch);
+                pos++;
+            }
+            int pick = seed.nextInt(list.size());
+            char ch = list.get(pick);
+            build.append(ch);
+            mySeed = mySeed.substring(1) + ch;
+        }
+    }
 
 	public void goodMarkov(int i, int letters){
 		if(markMap.size()==0) markMap=makeMap(i);
@@ -60,7 +99,7 @@ public class MapMarkovModel extends AbstractModel{
 			myString = myString.substring(1)+nextChar;
 		}
 		double finishTime = System.currentTimeMillis();
-		double ellapsed = (finishTime-startTime)/1000.0;
+		double ellapsed = (finishTime-startTime);
 		builder.append("\n\n");
 		this.notifyViews(builder.toString());
 		this.messageViews("Time to gen:"+ellapsed);

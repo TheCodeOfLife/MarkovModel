@@ -5,6 +5,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.TreeMap;
 
+
+/*
+ * 	ASSIGNMENT: Markov Modeling
+ * 	AUTHOR:		Luke Tannenbaum
+ * 	DUE:		4/18/16
+ * 	CLASS:		Comp 550
+ * 
+ */
 public class WordMarkovModel extends AbstractModel {
 	private String myString;
     private Random seed;
